@@ -127,6 +127,41 @@ mysql> DESC Invoice_item;
 +----------+------+------+-----+---------+-------+
 3 rows in set (0.00 sec)
 
+b)      DDL-ALTER & DROP
+
+1. Add a column ‘SSN’ at the first position in the table EMPLOYEE
+ALTER TABLE employee ADD COLUMN SSN VARCHAR(20) FIRST;
+Query OK, 0 rows affected (1.36 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+2. Change the data type of the column ‘DOB’  in year the table EMPLOYEE  
+ALTER TABLE employee MODIFY COLUMN DOB YEAR;
+Query OK, 0 rows affected (1.89 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+3. Delete the column ‘emp_id’ the table EMPLOYEE. 
+ALTER TABLE employee DROP COLUMN emp_id;
+Query OK, 0 rows affected (1.26 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+ 4. Add  the constraint unique for columns ‘SSN, ‘adhar_no’ the table EMPLOYEE
+ ALTER TABLE employee ADD CONSTRAINT ssn_adhar UNIQUE (SSN, adhar_no);
+Query OK, 0 rows affected (0.67 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+5. Delete the NULL constraint of ‘age’ in the STUDENT table.
+ALTER TABLE student MODIFY COLUMN age INT NULL;
+Query OK, 0 rows affected (1.70 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+6. Change the table name EMPLOYEE as PERSON
+ RENAME TABLE employee TO PERSON;
+Query OK, 0 rows affected (0.40 sec)
+
+7. Delete the table STUDENT1
+ drop table student1;
+Query OK, 0 rows affected (0.25 sec)
+
 
 
 
