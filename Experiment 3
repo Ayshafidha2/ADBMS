@@ -1,0 +1,262 @@
+a) TCL COMMANDS
+
+
+          1.    Commit
+          
+  mysql> select * from student;
++------+------+-------+
+| roll | age  | name  |
++------+------+-------+
+|    1 |   28 | aisha |
+|    2 |   33 | miju  |
+|    3 |   22 | anu   |
+|    4 |   23 | linto |
+|    5 | NULL | minu  |
+|    6 |   21 | jani  |
++------+------+-------+
+6 rows in set (0.00 sec)
+
+mysql> set autocommit=off;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delete from student where roll=6;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from student;
++------+------+-------+
+| roll | age  | name  |
++------+------+-------+
+|    1 |   28 | aisha |
+|    2 |   33 | miju  |
+|    3 |   22 | anu   |
+|    4 |   23 | linto |
+|    5 | NULL | minu  |
++------+------+-------+
+5 rows in set (0.00 sec)
+
+mysql> delete from student where roll=5;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from student;
++------+------+-------+
+| roll | age  | name  |
++------+------+-------+
+|    1 |   28 | aisha |
+|    2 |   33 | miju  |
+|    3 |   22 | anu   |
+|    4 |   23 | linto |
++------+------+-------+
+4 rows in set (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.10 sec)
+mysql> select * from student;
++------+------+-------+
+| roll | age  | name  |
++------+------+-------+
+|    1 |   28 | aisha |
+|    2 |   33 | miju  |
+|    3 |   22 | anu   |
+|    4 |   23 | linto |
++------+------+-------+
+4 rows in set (0.00 sec)
+
+          
+2.    Rollback
+mysql> set autocommit=off;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delete from student where roll=4;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from student;
++------+------+-------+
+| roll | age  | name  |
++------+------+-------+
+|    1 |   28 | aisha |
+|    2 |   33 | miju  |
+|    3 |   22 | anu   |
++------+------+-------+
+3 rows in set (0.00 sec)
+
+mysql> rollback;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> select * from student;
++------+------+-------+
+| roll | age  | name  |
++------+------+-------+
+|    1 |   28 | aisha |
+|    2 |   33 | miju  |
+|    3 |   22 | anu   |
+|    4 |   23 | linto |
++------+------+-------+
+4 rows in set (0.00 sec)
+
+   
+3.    Savepoint
+
+mysql> USE fidha;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> select * from student;
++------+------+-------+
+| roll | age  | name  |
++------+------+-------+
+|    1 |   28 | aisha |
+|    3 |   22 | anu   |
+|    4 |   23 | linto |
+|    5 | NULL | minu  |
+|    6 |   21 | jani  |
++------+------+-------+
+5 rows in set (0.00 sec)
+
+mysql> set autocommit=off;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into student values(7,23,'anusha');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from student;
++------+------+--------+
+| roll | age  | name   |
++------+------+--------+
+|    1 |   28 | aisha  |
+|    3 |   22 | anu    |
+|    4 |   23 | linto  |
+|    5 | NULL | minu   |
+|    6 |   21 | jani   |
+|    7 |   23 | anusha |
++------+------+--------+
+6 rows in set (0.00 sec)
+
+mysql> savepoint s1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into student values(8,63,'asha');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> savepoint s2;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into student values(2,43,'amisha');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> savepoint s3;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from student;
++------+------+--------+
+| roll | age  | name   |
++------+------+--------+
+|    1 |   28 | aisha  |
+|    2 |   43 | amisha |
+|    3 |   22 | anu    |
+|    4 |   23 | linto  |
+|    5 | NULL | minu   |
+|    6 |   21 | jani   |
+|    7 |   23 | anusha |
+|    8 |   63 | asha   |
++------+------+--------+
+8 rows in set (0.00 sec)
+
+mysql> rollback to s2;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from student;
++------+------+--------+
+| roll | age  | name   |
++------+------+--------+
+|    1 |   28 | aisha  |
+|    3 |   22 | anu    |
+|    4 |   23 | linto  |
+|    5 | NULL | minu   |
+|    6 |   21 | jani   |
+|    7 |   23 | anusha |
+|    8 |   63 | asha   |
++------+------+--------+
+7 rows in set (0.00 sec)
+
+
+b) DCL COMMAND
+ Create two users user1, user2
+
+1.GRANT
+
+Give insert and select privilege to user 1 on customer table in the invoice database.
+
+Give update and delete privilege to user 2 on all tables in the invoice database.
+ans)
+mysql> use INVOICE;
+
+Database changed
+
+mysql> create user ABC@'localhost' identified by 'User@123';
+Query OK, 0 rows affected (0.10 sec)
+
+
+mysql> grant insert,select on Customer to ABC@'localhost';
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> SHOW grants for ABC@'localhost';
++-------------------------------------------------------------------+
+| Grants for ABC@localhost                                          |
++-------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `ABC`@`localhost`                           |
+| GRANT SELECT, INSERT ON `INVOICE`.`Customer` TO `ABC`@`localhost` |
++-------------------------------------------------------------------+
+2 rows in set (0.00 sec)
+mysql> create user ABCD@'localhost' identified by 'User@321';
+Query OK, 0 rows affected (0.12 sec)
+
+mysql> grant update,delete on Customer to ABCD@'localhost';
+Query OK, 0 rows affected (0.10 sec)
+
+
+mysql> grant update,delete on INVOICE.* to ABCD@'localhost';
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> SHOW grants for ABCD@'localhost';
++--------------------------------------------------------------------+
+| Grants for ABCD@localhost                                          |
++--------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `ABCD`@`localhost`                           |
+| GRANT UPDATE, DELETE ON `INVOICE`.* TO `ABCD`@`localhost`          |
+| GRANT UPDATE, DELETE ON `INVOICE`.`Customer` TO `ABCD`@`localhost` |
++--------------------------------------------------------------------+
+3 rows in set (0.00 sec)
+
+
+
+
+2.REVOKE
+
+Remove delete privilege of user 2.
+ans)mysql> REVOKE DELETE ON INVOICE.* FROM ABCD@'localhost';
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> SHOW grants for ABCD@'localhost';
++--------------------------------------------------------------------+
+| Grants for ABCD@localhost                                          |
++--------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `ABCD`@`localhost`                           |
+| GRANT UPDATE ON `INVOICE`.* TO `ABCD`@`localhost`                  |
+| GRANT UPDATE, DELETE ON `INVOICE`.`Customer` TO `ABCD`@`localhost` |
++--------------------------------------------------------------------+
+3 rows in set (0.00 sec)
+
+mysql> REVOKE DELETE,update ON INVOICE.Customer FROM ABCD@'localhost';
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> SHOW grants for ABCD@'localhost';
++---------------------------------------------------+
+| Grants for ABCD@localhost                         |
++---------------------------------------------------+
+| GRANT USAGE ON *.* TO `ABCD`@`localhost`          |
+| GRANT UPDATE ON `INVOICE`.* TO `ABCD`@`localhost` |
++---------------------------------------------------+
+2 rows in set (0.00 sec)
+
+
