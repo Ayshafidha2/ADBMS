@@ -213,3 +213,4 @@ mysql>  select concat(name ," lives in ",city) as data from Customer;
 | sinu lives in tvm       |
 +-------------------------+
 5 rows in set (0.00 sec)
+//VERIFIED
