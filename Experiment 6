@@ -1,0 +1,35 @@
+RECORD PROGRAM 6: ACCESSING DATABASES: (VIEWS)
+
+
+
+
+1. Create a view for customers who have purchased products.
+mysql> create view v1 as select * from Customer where id in(select cust_id from Invoice_master where inv_id in (select inv_id from Invoice_item));
+Query OK, 0 rows affected (0.15 sec)
+
+mysql> select * from v1;
++-------+------+---------+-----------+-----------+
+| id    | name | address | city      | ph_no     |
++-------+------+---------+-----------+-----------+
+| 10001 | ainu | EKM     | kochi     | 123456456 |
+| 10002 | minu | EKM     | Kochi     | 234527350 |
+| 10003 | finu | Qstreet | tvm       | 552489567 |
+| 10004 | yinu | mukkam  | kozhikode |  45556456 |
+| 10005 | sinu | tvm     | tvm       |      NULL |
++-------+------+---------+-----------+-----------+
+5 rows in set (0.00 sec)
+
+
+2. Create a view for no sale products.
+mysql> create view v2 as select * from Product where pid not in(select pid from Invoice_item);
+Query OK, 0 rows affected (0.24 sec)
+
+mysql> select * from v2;
++------+-------+-------+
+| pid  | name  | price |
++------+-------+-------+
+| 2006 | paper |    45 |
++------+-------+-------+
+1 row in set (0.00 sec)
+
+
