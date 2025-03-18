@@ -1,0 +1,70 @@
+ACCESSING DATABASE:  (SUBQUERY)
+
+1.List the product name and price of each invoice item.
+ANS)mysql> select name,price from Product where pid in(select pid from Invoice_item);
++-------------+-------+
+| name        | price |
++-------------+-------+
+| pen         |    90 |
+| pencil      |    71 |
+| soap        |    92 |
+| hand wash   |   102 |
+| wash powder |   122 |
++-------------+-------+
+5 rows in set (0.01 sec)
+
+
+2.List the product names, only include their purchased quantity more than 3.
+ANS)mysql> select name from Product where pid in(select pid from Invoice_item where quantity>3);
++-------------+
+| name        |
++-------------+
+| pen         |
+| pencil      |
+| soap        |
+| hand wash   |
+| wash powder |
++-------------+
+5 rows in set (0.00 sec)
+
+
+3.Find the product that has no sale.
+ANS)
+mysql> select name from Product where pid not in (select pid from Invoice_item);
++-------+
+| name  |
++-------+
+| paper |
++-------+
+1 row in set (0.00 sec)
+
+4.    List the customer names who purchased the items ‘pen’ and ‘pencil’.
+ANS)mysql> select name from Customer where id in(select cust_id from Invoice_master where inv_id in(select inv_id from Invoice_item where pid=2001 or pid=2003));
++------+
+| name |
++------+
+| ainu |
+| finu |
++------+
+2 rows in set (0.00 sec)
+
+
+5.Display the purchased product details of the customer ’ainu’.
+ANS)mysql>  select * from Product where pid in (select pid from Invoice_item where inv_id in (select inv_id from Invoice_master where cust_id in(select id from Customer where name='ainu') ));
++------+------+-------+
+| pid  | name | price |
++------+------+-------+
+| 2001 | pen  |    90 |
++------+------+-------+
+1 row in set (0.01 sec)
+
+
+6.List the names of all customers who have purchased at least 2 products, make sure that no duplicate names in the result.
+ANS)mysql> select name from Customer where id in(select cust_id from Invoice_master where inv_id in (select inv_id from Invoice_item group by inv_id having count(inv_id)>=2));
++------+
+| name |
++------+
+| ainu |
++------+
+1 row in set (0.00 sec)
+
