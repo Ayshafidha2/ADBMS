@@ -50,9 +50,9 @@ ANS)mysql> select C.id,C.name,IM.inv_id,IM.inv_date from Customer C left join In
 
 OPTIMIZING DATABASE: (Using Set, arithmetic, logical and special operators)
 
-1.Display customer_id, city  who lives either in ‘Pala’ or in ‘calicut’
+1.Display customer_id, city  who lives either in ‘KOCHI’ or in ‘KOZHIKODE’
 
-ANS) mysql> select name,city from Customer where city='KOCHI' or city='KOZHIKODE';
+ANS) mysql> select name,city from Customer where city='kochi' or city='kozhikode';
 +------+-----------+
 | name | city      |
 +------+-----------+
