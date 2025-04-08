@@ -32,4 +32,4 @@ mysql> select name,price,price_range(price) as price_range from Product; delimit
 +-------------+-------+-------------+
 6 rows in set (0.00 sec)
 
-
+//VERIFIED
