@@ -1,0 +1,124 @@
+PL/SQL PROGRAMS- STORED PROCEDURES
+
+1.Create a procedure to display all tables in the invoice database.
+ANS)PL/SQL PROGRAMS- STORED PROCEDURESmysql> create procedure details() select II.* from Invoice_item II inner join Invoice_master IM on II.inv_id=IM.inv_id inner join Customer C on C.id=IM.cus_id where name='ainu';
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> call details();
++--------+------+----------+
+| inv_id | pid  | quantity |
++--------+------+----------+
+|    101 | 2001 |        5 |
+|    101 | 2001 |        3 |
++--------+------+----------+
+2 rows in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+1.Create a procedure to display all tables in the invoice database.
+
+mysql> delimiter //
+mysql> create procedure tables()
+    -> begin
+    -> select * from Customer;
+    -> select * from Invoice_master;
+    -> select * from Invoice_item;
+    -> select * from Product;
+    -> end //
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delimiter ;
+mysql> call tables();
++-------+------+---------+-----------+-----------+
+| id    | name | address | city      | ph_no     |
++-------+------+---------+-----------+-----------+
+| 10001 | ainu | EKM     | kochi     | 123456456 |
+| 10002 | minu | EKM     | Kochi     | 234527350 |
+| 10003 | finu | Qstreet | tvm       | 552489567 |
+| 10004 | yinu | mukkam  | kozhikode |  45556456 |
+| 10005 | sinu | tvm     | tvm       |      NULL |
++-------+------+---------+-----------+-----------+
+5 rows in set (0.00 sec)
+
++--------+---------+------------+
+| inv_id | cust_id | inv_date   |
++--------+---------+------------+
+|    101 |   10001 | 2023-01-03 |
+|    102 |   10002 | 2023-05-09 |
+|    103 |   10003 | 2024-02-20 |
+|    104 |   10004 | 2024-06-25 |
+|    105 |   10005 | 2024-12-15 |
++--------+---------+------------+
+5 rows in set (0.00 sec)
+
++--------+------+----------+
+| inv_id | pid  | quantity |
++--------+------+----------+
+|    101 | 2001 |        5 |
+|    102 | 2002 |        8 |
+|    103 | 2003 |        4 |
+|    104 | 2004 |        9 |
+|    105 | 2005 |       12 |
+|    101 | 2001 |        3 |
++--------+------+----------+
+6 rows in set (0.00 sec)
+
++------+-------------+-------+
+| pid  | name        | price |
++------+-------------+-------+
+| 2001 | pen         |    90 |
+| 2002 | pencil      |    71 |
+| 2003 | soap        |    92 |
+| 2004 | hand wash   |   102 |
+| 2005 | wash powder |   122 |
+| 2006 | paper       |    45 |
++------+-------------+-------+
+6 rows in set (0.00 sec)
+
+
+Query OK, 0 rows affected (0.01 sec)
+
+
+2.Create a procedure to find greatest of 2 numbers.
+mysql> delimiter //
+mysql> create procedure greatest(in a int,b int)
+    -> begin
+    -> declare max_val int;
+    -> if a>=b then
+    -> set max_val=a;
+    -> else 
+    -> set max_val=b;
+    -> end if;
+    -> select max_val as 'greatest among 2';
+    -> end //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> call greatest(5,7); 
++------------------+
+| greatest among 2 |
++------------------+
+|                7 |
++------------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+3.Create a procedure to display invoice details of a particular customer.
+mysql> create procedure details(in var1 Varchar(10)) select II.* from Invoice_item II inner join Invoice_master IM on II.inv_id=IM.inv_id inner join Customer C on C.id=IM.cus_id where C.name=var1;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> call details('ainu');
++--------+------+----------+
+| inv_id | pid  | quantity |
++--------+------+----------+
+|    101 | 2001 |        5 |
+|    101 | 2001 |        3 |
++--------+------+----------+
+2 rows in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+
+
+
