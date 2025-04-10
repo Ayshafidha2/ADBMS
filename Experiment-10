@@ -1,0 +1,83 @@
+1.Create a trigger to handle updates to the customer table.
+
+mysql> delimiter $
+mysql> create trigger c_upd
+    -> after update on Customer
+    -> for each row begin
+    -> insert into cust set id=new.id,name=new.name,city=new.city,ph_no=new.ph_no;
+    -> end$
+Query OK, 0 rows affected (0.12 sec)
+
+
+mysql> create table cust(id int,name varchar(10),city varchar(10),ph_no int) $
+Query OK, 0 rows affected (0.58 sec)
+
+
+mysql> select * from Customer $
++-------+------+---------+-----------+-----------+
+| id    | name | address | city      | ph_no     |
++-------+------+---------+-----------+-----------+
+| 10001 | ainu | EKM     | kochi     | 123456456 |
+| 10002 | minu | EKM     | Kochi     | 234527350 |
+| 10003 | finu | Qstreet | tvm       | 552489567 |
+| 10004 | yinu | mukkam  | kozhikode |  45556456 |
+| 10005 | sinu | tvm     | tvm       |      NULL |
++-------+------+---------+-----------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> update Customer set city='kozhikode' where id='10003' $
+Query OK, 1 row affected (0.08 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+
+mysql>  SELECT * FROM Customer$
++-------+------+---------+-----------+-----------+
+| id    | name | address | city      | ph_no     |
++-------+------+---------+-----------+-----------+
+| 10001 | ainu | EKM     | kochi     | 123456456 |
+| 10002 | minu | EKM     | Kochi     | 234527350 |
+| 10003 | finu | Qstreet | kozhikode | 552489567 |
+| 10004 | yinu | mukkam  | kozhikode |  45556456 |
+| 10005 | sinu | tvm     | tvm       |      NULL |
++-------+------+---------+-----------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> select * from cust $
++-------+------+-----------+-----------+
+| id    | name | city      | ph_no     |
++-------+------+-----------+-----------+
+| 10003 | finu | kozhikode | 552489567 |
++-------+------+-----------+-----------+
+1 row in set (0.00 sec)
+
+
+
+2.Create a trigger to handle inserts to the product relation ( if price < 5 the set price to 10).
+
+mysql>  create trigger p_ins
+    -> before insert on Product
+    -> for each row begin
+    -> if new.price <5 then
+    -> set new.price=10;
+    -> end if; end$
+Query OK, 0 rows affected (0.12 sec)
+
+
+mysql> insert into Product values( 2007, 'eraser', 4) $
+Query OK, 1 row affected (0.06 sec)
+
+mysql> select * from Product$
++------+-------------+-------+
+| pid  | name        | price |
++------+-------------+-------+
+| 2001 | pen         |    90 |
+| 2002 | pencil      |    71 |
+| 2003 | soap        |    92 |
+| 2004 | hand wash   |   102 |
+| 2005 | wash powder |   122 |
+| 2006 | paper       |    45 |
+| 2007 | eraser      |    10 |
++------+-------------+-------+
+7 rows in set (0.00 sec)
+
+
