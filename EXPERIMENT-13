@@ -55,4 +55,4 @@ ANS)INVOICE> db.CUSTOMER.find({ city: { $ne: "tvm" } });
     email: 'ainu@gmail.com'
   }
 ]
-
+//VERIFIED
