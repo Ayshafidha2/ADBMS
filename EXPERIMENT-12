@@ -1,0 +1,90 @@
+1.Write a MongoDB query to create an INVOICE database and collections (CUSTOMER, PRODUCT) and its corresponding documents.
+ans)
+INVOICE> db.CUSTOMER.insertMany([{name: "aysha",city:"New york",email:"aisha@gmail.com"},
+{name:"fidha",city:"delhi",email:"fidha@gmail.com"},
+{name:"ainu",city:"calicut",email:"ainu@gmail.com"}]);
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('67fe26b956c2591650d861e0'),
+    '1': ObjectId('67fe26b956c2591650d861e1'),
+    '2': ObjectId('67fe26b956c2591650d861e2')
+  }
+}
+
+2.Write a MongoDB query to find all documents from the collection CUSTOMER
+ans)INVOICE> db.CUSTOMER.find();
+[
+  {
+    _id: ObjectId('67fe26b956c2591650d861e0'),
+    name: 'aysha',
+    city: 'New york',
+    email: 'aisha@gmail.com'
+  },
+  {
+    _id: ObjectId('67fe26b956c2591650d861e1'),
+    name: 'fidha',
+    city: 'delhi',
+    email: 'fidha@gmail.com'
+  },
+  {
+    _id: ObjectId('67fe26b956c2591650d861e2'),
+    name: 'ainu',
+    city: 'calicut',
+    email: 'ainu@gmail.com'
+  }
+]
+
+3.Write a MongoDB query to update the city in the collection CUSTOMER.
+ANS)INVOICE> db.CUSTOMER.updateMany(
+...   { city: "calicut" },
+...   { $set: { city: "Kozhikode" } }
+... );
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+INVOICE> db.CUSTOMER.find();
+[
+  {
+    _id: ObjectId('67fe26b956c2591650d861e0'),
+    name: 'aysha',
+    city: 'New york',
+    email: 'aisha@gmail.com'
+  },
+  {
+    _id: ObjectId('67fe26b956c2591650d861e1'),
+    name: 'fidha',
+    city: 'delhi',
+    email: 'fidha@gmail.com'
+  },
+  {
+    _id: ObjectId('67fe26b956c2591650d861e2'),
+    name: 'ainu',
+    city: 'Kozhikode',
+    email: 'ainu@gmail.com'
+  }
+]
+
+4.Write a MongoDB query to delete the first matched document whose city is “delhi”.
+ANS)INVOICE> db.CUSTOMER.deleteOne({ city: "delhi" });
+{ acknowledged: true, deletedCount: 1 }
+INVOICE> db.CUSTOMER.find();
+[
+  {
+    _id: ObjectId('67fe26b956c2591650d861e0'),
+    name: 'aysha',
+    city: 'New york',
+    email: 'aisha@gmail.com'
+  },
+  {
+    _id: ObjectId('67fe26b956c2591650d861e2'),
+    name: 'ainu',
+    city: 'Kozhikode',
+    email: 'ainu@gmail.com'
+  }
+]
+
