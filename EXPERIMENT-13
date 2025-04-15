@@ -1,0 +1,58 @@
+1.Write a MongoDB query to display the customer documents having city ‘Kozhikode’,’New york’.
+ans)INVOICE> db.CUSTOMER.find({ city: { $in: ["Kozhikode", "New york"] } });
+[
+  {
+    _id: ObjectId('67fe26b956c2591650d861e0'),
+    name: 'aysha',
+    city: 'New york',
+    email: 'aisha@gmail.com'
+  },
+  {
+    _id: ObjectId('67fe26b956c2591650d861e2'),
+    name: 'ainu',
+    city: 'Kozhikode',
+    email: 'ainu@gmail.com'
+  }
+]
+
+2.Write a MongoDB query to display all product documents their price >50.
+ANS)INVOICE> db.PRODUCT.find({ price: { $gt: 50 } });
+[
+  {
+    _id: ObjectId('67fe26df56c2591650d861e3'),
+    product_id: 1,
+    name: 'Laptop',
+    price: 1000
+  },
+  {
+    _id: ObjectId('67fe26df56c2591650d861e4'),
+    product_id: 2,
+    name: 'Smartphone',
+    price: 500
+  },
+  {
+    _id: ObjectId('67fe26df56c2591650d861e5'),
+    product_id: 3,
+    name: 'Tablet',
+    price: 300
+  }
+]
+
+3.Write a MongoDB query to find customer documents who not live in ‘tvm’.
+ANS)INVOICE> db.CUSTOMER.find({ city: { $ne: "tvm" } });
+
+[
+  {
+    _id: ObjectId('67fe26b956c2591650d861e0'),
+    name: 'aysha',
+    city: 'New york',
+    email: 'aisha@gmail.com'
+  },
+  {
+    _id: ObjectId('67fe26b956c2591650d861e2'),
+    name: 'ainu',
+    city: 'Kozhikode',
+    email: 'ainu@gmail.com'
+  }
+]
+
