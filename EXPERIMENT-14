@@ -1,0 +1,80 @@
+1.Write a MongoDB query to sort customer details in ascending order of their name.
+ANS)INVOICE> db.CUSTOMER.find().sort({ name: 1 })
+[
+  {
+    _id: ObjectId('67fe26b956c2591650d861e2'),
+    name: 'ainu',
+    city: 'Kozhikode',
+    email: 'ainu@gmail.com',
+    age: 21
+  },
+  {
+    _id: ObjectId('67fe26b956c2591650d861e0'),
+    name: 'aysha',
+    city: 'New york',
+    email: 'aisha@gmail.com',
+    age: 25
+  },
+  {
+    _id: ObjectId('67ff7a16de6b60c6a4d861e1'),
+    name: 'jaseem',
+    city: 'Kozhikode',
+    email: 'jaseem@gmail.com',
+    age: 54
+  },
+  {
+    _id: ObjectId('67ff7028de6b60c6a4d861e0'),
+    name: 'linto',
+    city: 'New york',
+    email: 'linto@gmail.com',
+    age: 30
+  }
+]
+
+2.Write a MongoDB query to count number of customers in each city.
+ANS)INVOICE>  db.CUSTOMER.aggregate([
+    {
+     $group: {  _id: "$city",customerCount: { $sum: 1 } }
+    } ])
+    
+[
+  { _id: 'New york', customerCount: 2 },
+  { _id: 'Kozhikode', customerCount: 2 }
+]
+
+
+3.Write a MongoDB query to find minimum and maximum age in each city.
+ANS)INVOICE> db.CUSTOMER.aggregate([ { $group: { _id: "$city", max_age: { $max: "$age" }, min_age: { $min: "$age" } } }] )
+[
+  { _id: 'New york', max_age: 30, min_age: 25 },
+  { _id: 'Kozhikode', max_age: 54, min_age: 21 }
+]
+
+4.Write a MongoDB query using the $match stage to retrieve all customer documents whose customer_name starts with the letter “S”.
+ANS)INVOICE> db.CUSTOMER.aggregate([   {$match: {     name: { $regex: "^a", $options: "i" } } } ])
+[
+  {
+    _id: ObjectId('67fe26b956c2591650d861e0'),
+    name: 'aysha',
+    city: 'New york',
+    email: 'aisha@gmail.com',
+    age: 25
+  },
+  {
+    _id: ObjectId('67fe26b956c2591650d861e2'),
+    name: 'ainu',
+    city: 'Kozhikode',
+    email: 'ainu@gmail.com',
+    age: 21
+  }
+]
+
+
+5.Write a query using $lookup to join CUSTOMER and PRODUCT collections and display only customer name, product name, and price.
+ANS)INVOICE>  db.CUSTOMER.aggregate([{$lookup:{from:"PRODUCT",localField:"cust_id",foreignField:"product_id",as:"Product_details"}},{$project:{_id:0,customerName:"$name",productName:{$arrayElemAt:["$Product_details.name",0]},price:{$arrayElemAt:["$Product_details.price",0]}}}])
+[
+  { customerName: 'aysha', productName: 'Laptop', price: 1000 },
+  { customerName: 'ainu', productName: 'Smartphone', price: 500 },
+  { customerName: 'linto', productName: 'Tablet', price: 300 },
+  { customerName: 'jaseem' }
+]
