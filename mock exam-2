@@ -1,0 +1,397 @@
+PART A: Creating Collection and Inserting Documents 
+
+//Create a database named collegeDB.
+
+use collegeDB  
+
+//Create a collection named students.
+
+db.createCollection("students")
+
+Insert at least 5 student documents with the following fields:
+ _id (auto or manual)
+ name
+ age
+ department
+ marks (object with math, science, english)
+ admissionYear
+
+ANS) db.students.insertMany([
+  {
+    _id: 1,
+    name: "fidha",
+    age: 20,
+    department: "Computer Science",
+    marks: { math: 90, science: 85, english: 88 },
+    admissionYear: 2023
+  },
+  {
+    _id: 2,
+    name: "aisha",
+    age: 22,
+    department: "IT",
+    marks: { math: 70, science: 75, english: 80 },
+    admissionYear: 2022
+  },
+  {
+    _id: 3,
+    name: "zinu",
+    age: 21,
+    department: "Electrical",
+    marks: { math: 88, science: 82, english: 79 },
+    admissionYear: 2023
+  },
+  {
+    _id: 4,
+    name: "",
+    age: 23,
+    department: "Computer Science",
+    marks: { math: 95, science: 90, english: 92 },
+    admissionYear: 2021
+  },
+  {
+    _id: 5,
+    name: "Eva",
+    age: 20,
+    department: "Civil",
+    marks: { math: 65, science: 70, english: 68 },
+    admissionYear: 2023
+  }
+])
+
+{
+  acknowledged: true,
+  insertedIds: { '0': 1, '1': 2, '2': 3, '3': 4, '4': 5 }
+}
+
+
+//PART B: CRUD Operations//
+1. Display all documents in the students collection.
+ANS)collegeDB> db.students.find()
+... 
+[
+  {
+    _id: 1,
+    name: 'fidha',
+    age: 20,
+    department: 'Computer Science',
+    marks: { math: 90, science: 85, english: 88 },
+    admissionYear: 2023
+  },
+  {
+    _id: 2,
+    name: 'aisha',
+    age: 22,
+    department: 'IT',
+    marks: { math: 70, science: 75, english: 80 },
+    admissionYear: 2022
+  },
+  {
+    _id: 3,
+    name: 'zinu',
+    age: 21,
+    department: 'Electrical',
+    marks: { math: 88, science: 82, english: 79 },
+    admissionYear: 2023
+  },
+  {
+    _id: 4,
+    name: 'finu',
+    age: 23,
+    department: 'Computer Science',
+    marks: { math: 95, science: 90, english: 92 },
+    admissionYear: 2021
+  },
+  {
+    _id: 5,
+    name: 'Eva',
+    age: 20,
+    department: 'Civil',
+    marks: { math: 65, science: 70, english: 68 },
+    admissionYear: 2023
+  }
+]
+
+
+2. Display students whose department is "Computer Science".
+ANS)db.students.find({ department: "Computer Science" })
+[
+  {
+    _id: 1,
+    name: 'fidha',
+    age: 20,
+    department: 'Computer Science',
+    marks: { math: 90, science: 85, english: 88 },
+    admissionYear: 2023
+  },
+  {
+    _id: 4,
+    name: 'finu',
+    age: 23,
+    department: 'Computer Science',
+    marks: { math: 95, science: 90, english: 92 },
+    admissionYear: 2021
+  }
+]
+
+3. Update the age of a student named "fidha" to 21.
+ANS)db.students.updateOne(
+   { name: "fidha" },
+   { $set: { age: 21 } }
+ )
+ 
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+
+4. Add a new field attendance: 95 to the student named "fidha".
+ANS)db.students.updateOne(
+   { name: "fidha" },
+  { $set: { attendance: 95 } }
+ )
+
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+5. Delete a student document where the name is "aisha".
+ANS)db.students.deleteOne({ name: "aisha" })
+{ acknowledged: true, deletedCount: 1 }
+
+
+
+
+
+//Part C: Data Retrieval with Conditions
+1. Retrieve names of students who scored more than 85 in math.
+ANS)db.students.find(
+   { "marks.math": { $gt: 85 } },
+   { name: 1, _id: 0 }
+ )
+
+[ { name: 'fidha' }, { name: 'zinu' }, { name: 'finu' } ]
+
+2. List students admitted in the year 2023.
+ANS)db.students.find({ admissionYear: 2023 })
+[
+  {
+    _id: 1,
+    name: 'fidha',
+    age: 21,
+    department: 'Computer Science',
+    marks: { math: 90, science: 85, english: 88 },
+    admissionYear: 2023,
+    attendance: 95
+  },
+  {
+    _id: 3,
+    name: 'zinu',
+    age: 21,
+    department: 'Electrical',
+    marks: { math: 88, science: 82, english: 79 },
+    admissionYear: 2023
+  },
+  {
+    _id: 5,
+    name: 'Eva',
+    age: 20,
+    department: 'Civil',
+    marks: { math: 65, science: 70, english: 68 },
+    admissionYear: 2023
+  }
+]
+
+3. Display students sorted by name in ascending order.
+ANS)db.students.find().sort({ name: 1 })
+... 
+[
+  {
+    _id: 5,
+    name: 'Eva',
+    age: 20,
+    department: 'Civil',
+    marks: { math: 65, science: 70, english: 68 },
+    admissionYear: 2023
+  },
+  {
+    _id: 1,
+    name: 'fidha',
+    age: 21,
+    department: 'Computer Science',
+    marks: { math: 90, science: 85, english: 88 },
+    admissionYear: 2023,
+    attendance: 95
+  },
+  {
+    _id: 4,
+    name: 'finu',
+    age: 23,
+    department: 'Computer Science',
+    marks: { math: 95, science: 90, english: 92 },
+    admissionYear: 2021
+  },
+  {
+    _id: 3,
+    name: 'zinu',
+    age: 21,
+    department: 'Electrical',
+    marks: { math: 88, science: 82, english: 79 },
+    admissionYear: 2023
+  }
+]
+
+4. Count the number of students in each department.
+ANS)db.students.aggregate([
+   { $group: { _id: "$department", count: { $sum: 1 } } }
+ ])
+ 
+[
+  { _id: 'Civil', count: 1 },
+  { _id: 'Electrical', count: 1 },
+  { _id: 'Computer Science', count: 2 }
+]
+
+
+
+//Part D: Aggregation
+1. Use $project to display only name and total marks (sum of all subjects).
+ANS)db.students.aggregate([
+  {
+     $project: {
+       name: 1,
+       totalMarks: {
+         $sum: [ "$marks.math", "$marks.science", "$marks.english" ]
+       }
+     }
+   }
+ ])
+ 
+[
+  { _id: 1, name: 'fidha', totalMarks: 263 },
+  { _id: 3, name: 'zinu', totalMarks: 249 },
+  { _id: 4, name: 'finu', totalMarks: 277 },
+  { _id: 5, name: 'Eva', totalMarks: 203 }
+]
+
+ 
+
+2. Use $match and $group to calculate the average math marks department-wise.
+ANS) db.students.aggregate([
+   { $match: { "marks.math": { $exists: true } } },
+   {
+     $group: {
+       _id: "$department",
+       avgMath: { $avg: "$marks.math" }
+     }
+ } ])
+[
+  { _id: 'Computer Science', avgMath: 92.5 },
+  { _id: 'Electrical', avgMath: 88 },
+  { _id: 'Civil', avgMath: 65 }
+]
+3. Use $sort to display students based on their science marks in descending order.
+ANS)db.students.find().sort({ "marks.science": -1 })
+[
+  {
+    _id: 4,
+    name: 'finu',
+    age: 23,
+    department: 'Computer Science',
+    marks: { math: 95, science: 90, english: 92 },
+    admissionYear: 2021
+  },
+  {
+    _id: 1,
+    name: 'fidha',
+    age: 21,
+    department: 'Computer Science',
+    marks: { math: 90, science: 85, english: 88 },
+    admissionYear: 2023,
+    attendance: 95
+  },
+  {
+    _id: 3,
+    name: 'zinu',
+    age: 21,
+    department: 'Electrical',
+    marks: { math: 88, science: 82, english: 79 },
+    admissionYear: 2023
+  },
+  {
+    _id: 5,
+    name: 'Eva',
+    age: 20,
+    department: 'Civil',
+    marks: { math: 65, science: 70, english: 68 },
+    admissionYear: 2023
+  }
+]
+4. Use $lookup to join students with a new collection named internships, and display:
+name, department, internship_company, and duration
+(Assume students.student_id = internships.student_id)
+ANS) db.internships.insertMany([
+   { student_id: 1, internship_company: "Google", duration: "3 months" },
+   { student_id: 3, internship_company: "Amazon", duration: "2 months" },
+   { student_id: 4, internship_company: "Meta", duration: "4 months" }
+ ])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6815b286e3a0d45bdcd861e0'),
+    '1': ObjectId('6815b286e3a0d45bdcd861e1'),
+    '2': ObjectId('6815b286e3a0d45bdcd861e2')
+  }
+}
+db.students.aggregate([
+   {
+     $lookup: {
+       from: "internships",
+       localField: "_id",
+       foreignField: "student_id",
+       as: "internshipInfo"
+    }
+   },
+   { $unwind: "$internshipInfo" },
+   {
+     $project: {
+       name: 1,
+       department: 1,
+       internship_company: "$internshipInfo.internship_company",
+       duration: "$internshipInfo.duration"
+     }
+   }
+ ])
+ 
+[
+  {
+    _id: 1,
+    name: 'fidha',
+    department: 'Computer Science',
+    internship_company: 'Google',
+    duration: '3 months'
+  },
+  {
+    _id: 3,
+    name: 'zinu',
+    department: 'Electrical',
+    internship_company: 'Amazon',
+    duration: '2 months'
+  },
+  {
+    _id: 4,
+    name: 'finu',
+    department: 'Computer Science',
+    internship_company: 'Meta',
+    duration: '4 months'
+  }
+]
+
